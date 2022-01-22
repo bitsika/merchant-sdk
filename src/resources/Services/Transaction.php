@@ -59,17 +59,17 @@ class Transaction
     }
 
     /**
-     * Get verify
+     * Get a transaction detail
      * 
      * @param int $id
      * 
      * @return array
      */
-    public function verify($id) : array
+    public function get($id) : array
     {
-        $url = "transactions/verify";
+        $url = "transactions/{$id}";
 
-        $this->response = $this->http->post($url, ['id' => $id]);
+        $this->response = $this->http->get($url, ['id' => $id]);
         return $this->response->json();
     }
 

@@ -116,10 +116,10 @@ $response = $merchant->transaction()->statistics();
 var_dump($response);
 ```
 
-### Verify transaction 
+### Get transaction detail
 ```php
 $transactionId = 591;
-$response = $merchant->transaction()->verify($transactionId);
+$response = $merchant->transaction()->get($transactionId);
 
 var_dump($response);
 ```
