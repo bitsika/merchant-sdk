@@ -1,34 +1,30 @@
-# Bitsika Merchant SDK
+# Bitsika Console for Merchants - PHP SDK
 
-The Bitsika Merchant PHP library gives convenient access to the Merchant API from applications written in the PHP language.
+The Bitsika PHP library gives convenient access to the Console Merchant API for applications written in the PHP language. Devs and merchants alike can use our API and corresponding dashboard to create invoices that any Bitsika user can instantly pay. Learn more here: https://console.bitsika.africa. Our raw API documentation: https://documenter.getpostman.com/view/12690520/UUy39RrV. Small video [demo.](https://www.youtube.com/watch?v=qOBr1cXlV1s)
 
-## API Documentation
-https://documenter.getpostman.com/view/12690520/UUy39RrV
 
-## Requirements
-- PHP >= 7.0
-- A Bitsika merchant `secret_key`.
->> As indicated above, In other to use the package, you need a Bisika Merchant Secret key. If you do not have one, you can get  [here](https://merchant.bitsika.africa/dashboard/merchant/keys-and-security)
+
+## General Requirements
+1. PHP version 7.0 or greater.
+2. Composer for installing packages.
+3. The binding relies on [Guzzle](https://guzzle3.readthedocs.io/index.html) to work fine.
 
 ## Installation
-This package requires PHP >= 7.0 and composer to run.
-Run the command below to Install.
+Install the Bitsika PHP Library.
 
 ```bash
 composer require bitsika/merchant-sdk-php
 ```
 
-To use the bindings, use Composer's autoload:
+To use the bindings, use Composer's autoload.
 ```bash
 require_once __DIR__ . '/vendor/autoload.php';
 ```
 
-## Dependencies
-The binding relies on [Guzzle](https://guzzle3.readthedocs.io/index.html) to work fine
 
 ## Getting Started
-Below are basic examples on how to use the package.
->> Here we would assume `bsk_sec_SoMemAGicalNumBErForteSt` is our merchant's secret key. (Note: You should change this to your merchant's secret key when testing. If you do not have one, visit [here](https://merchant.bitsika.africa/dashboard/merchant/keys-and-security) to get it)
+To get started, create an instance of the Merchant class. You will need a copy of your Bitsika API `Secret Key`. This can be found on the [Keys and Security page](https://merchant.bitsika.africa/dashboard/merchant/keys-and-security) of our [Console](https://merchant.bitsika.africa/).
+
 
 
 ```php
@@ -36,291 +32,157 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Bitsika\Merchant;
 
-$merchant = new Merchant('bsk_sec_SoMemAGicalNumBErForteSt');
+$merchant = new Merchant('PUT_YOUR_SECRET_KEY_HERE');
 ```
 
-From the sample above, the variable `$merchant` is now an instance of a Bitsika merchant, and can be used to perform any action on the merchant. 
+The variable `$merchant` is now an instance of the Merchant class and can be used to perform any of the multiple tasks available to merchants.
 
-# Merchant
-### Get merchant detail
+# Merchant Methods
+### Get merchant detail.
+
+This method returns basic data related to the merchant company whose `Secret Key` you’re currently using. Data returned includes company name, Bitsika username, profile picture URL, KYC status, balances across multiple currencies and much more.
+
 ```php
 $response = $merchant->detail();
 
 var_dump($response);
 ```
 
-### Get merchant statistics
+
+
+
+### Get merchant statistics.
+This method returns transaction statistics pertaining to the respective merchant company. It returns data like number of unique users, sum of successful transactions, sum of all transactions, etc.
+
+
 ```php
 $response = $merchant->statistics();
 
 var_dump($response);
 ```
 
-# Invoices
+# Invoice Methods
 
-### Create invoice
+### Create invoice.
+This method returns basic data for a newly created invoice including (most importantly) the invoice / payment web link URL. This invoice can we paid by any Bitsika user who opens the payment link. They can pay the invoice with any currency balance in their Bitsika app. You, the merchant, will get settled instantly in the currency you specify when creating the invoice below.
+
 ```php
 $response = $merchant->invoices()->create([
-    "title" => "Coins of life", 
-    "description" => "Biscuits that makes the brain go pita paka, pita paka", 
-    "amount" => 2000000, 
-    "currency" => "NGN", 
-    "recipient_email" => "ibk@bitsika.africa", 
-    "photo_url" => "https://lindaikeji.com" 
+    "title" => "Vanilla Ice-Cream",
+    "description" => "2 scoops of vanilla ice-cream, chocolate biscuits and coconut shavings.",
+    "amount" => 2000000,
+    "currency" => "NGN",
+    "recipient_email" => "test@example.com",
+    "photo_url" => "https://image.com/test.jpg"
 ]);
 
 var_dump($response);
 ```
 
-### Get all invoices
-```php
-$response = $merchant->invoices()->all();
 
-var_dump($response);
-```
+| Param | Required | About | Validation |
+| :--- | :--- | :--- | :--- |
+| title | Yes | Title of the invoice. Here, provide a heading of the service you rendered to your customer. For example "Vanilla ice-cream with coconut shavings". | String. Minimum number of characters = 4. Maximum number of characters = 50. |
+| description | Yes | Provide more info on the service your customer is about to pay for. Example: "2 scoops of vanilla ice-cream, chocolate biscuits and coconut shavings. Large cup size". | String. Minimum number of characters = 4. Maximum number of characters = 280. |
+| amount | Yes | Amount number that the service costs. | Integer. Minimum amount: 1. Maximum amount: 10000000. 2 decimal places, if used. It is important to note that because of KYC, fraud control and best practices, we suggest that the amount of your invoice doesn't exceed the equivalent of $1,000 in its respective currency.|
+| currency | Yes | Denote the currency you / your company would like the payment of this invoice to be settled in.| String. Provide one of the following currencies: `NGN`, `USD`, `XOF`, `XAF`, `GHS` |
+| recipient_email | No | Who should a copy of this invoice be sent to upon creation? | String / Email format. Minimum number of characters = 4. Maximum number of characters = 50. |
+| photo_url | No | Provide the URL of your product's / service's item photo.  | String / URL format. Minimum number of characters = 4. Maximum number of characters = 280. |
 
-### Get invoice by id
+
+
+
+
+### Get invoice by id.
+
+This method is used to query an invoice’s data any time in the future. You can use this method to manually check on the state (if it’s been paid or not) or expiry status of an invoice.
+
 ```php
-$invoiceId = '948641e6-b4ea-4053-a60b-7052777f33fa';
+$invoiceId = 'INVOICE_ID_HERE';
 $response = $merchant->invoices()->get($invoiceId);
 
 var_dump($response);
 ```
 
-### Delete invoice
-```php
-$invoiceId = '948641e6-b4ea-4053-a60b-7052777f33fa';
-$response = $merchant->invoices()->delete($invoiceId);
 
-var_dump($response);
-```
 
-# Transactions
-###  Get all transactions
+
+### Send cash.
+
+Your merchant company needs to be verified (KYC verification) before you can successfully call this method.
+
+Use this method to send money from your company’s merchant balances to any Bitsika user or merchant with a $username or $cashtag. All such transfers are instant and free.
+
 ```php
-$response = $merchant->transaction()->all([
-    ...
-    'type' => 'OUT',
-    'mode' => 'BTC',
-    ...
+$response = $merchant->transaction()->sendCash([
+   "platform" => "bitsika",
+   "amount" => 100,
+   "currency" => "USD",
+   "username" => "davido",
+   "debit_from" => "USD",
+   "by_id" => "",
+   "for" => ""
 ]);
 
 var_dump($response);
 ```
-You can add other filters to the array. Alternatively, if you do not plan on filtering your response, you can either leave the array empty or don't pass any argument into it.
 
-###  Get transaction statistics
+
+
+
+| Param | Required | About | Validation |
+| :--- | :--- | :--- | :--- |
+| platform | Yes | What network are you transferring the money on? | String. `bitsika` |
+| amount | Yes | Numerical value of amount to be transferred. | Integer. Minimum amount: 1. Maximum amount: 10000000. 2 decimal places, if used. It is important to note that because of KYC, fraud control and best practices, we suggest that the amount of your invoice doesn't exceed the equivalent of $1,000 in its respective currency. |
+| currency | Yes | Denote the currency you / your company would like the end user to receive the transfer in.| String. Provide one of the following currencies: `NGN`, `USD`, `XOF`, `XAF`, `GHS` |
+| username | Yes | Provide the `username` or `cashtag` of the Bitsika user or merchant you're making the transfer to. | String. Example: `davido`, `taylorswift13`. Do not include the `$` infront of the username when writing it. |
+| debit_from | Yes | Denote the currency balance you / your company would like the transfer to be deducted from. You can make a transfer in one currency, debited from another. For example: you can send a user 100 USD, but choose to deduct the debit from your NGN balance. | String. Provide one of the following currencies: `NGN`, `USD`, `XOF`, `XAF`, `GHS` |
+| purpose | No | A comment or note to accompany the transfer. | String. Minimum number of characters = 4. Maximum number of characters = 255. |
+
+
+### Verify transaction.
+
+Use this method to verify the status of transfers you make with the `Send Cash` method above.
+
 ```php
-$response = $merchant->transaction()->statistics();
 
-var_dump($response);
-```
+$transactionId = "YOUR_TRANSACTION_ID_HERE";
 
-### Get transaction detail
-```php
-$transactionId = 591;
 $response = $merchant->transaction()->get($transactionId);
 
 var_dump($response);
 ```
 
-### Cash out
-```php
-$response = $merchant->transaction()->cashOut([
-   "platform" => "Flutterwave", 
-   "amount" => 4000, 
-   "currency" => "NGN", 
-   "debit_from" => "USD", 
-   "country" => "Nigeria", 
-   "account_name" => "Precious", 
-   "bank_code" => "044", 
-   "account_number" => "0690000044" 
-]);
 
-var_dump($response);
-```
 
-### Send Cash
-```php
-$response = $merchant->transaction()->sendCash([
-   "platform" => "Bitsika", 
-   "amount" => 100, 
-   "currency" => "USD", 
-   "username" => "davido", 
-   "debit_from" => "USD", 
-   "by_id" => "", 
-   "for" => "" 
-]);
-
-var_dump($response);
-```
-
-### Add Cash
-```php
-$response = $merchant->transaction()->addCash([
-   "platform" => "Flutterwave", 
-   "amount" => 900, 
-   "currency" => "USD", 
-   "number" => "0556451981", 
-   "username" => "akua", 
-   "network" => "Vodafone", 
-   "address" => "2MysF8fC8qX7BZqRQB9yHa8mYhxW8evzCSc", 
-   "account_number" => "0000000000", 
-   "account_name" => "Test", 
-   "bank_code" => "057", 
-   "country" => "Ghana" 
-]);
-
-var_dump($response);
-```
-
-### Get transaction balances
-```php
-$response = $merchant->transaction()->balances();
-
-var_dump($response);
-```
-
-# Virtual card
-
-###  Create Card
-```php
-$response = $merchant->virtualCard()->create([
-   "name" => "Tommie Nii Darku", 
-   "currency" => "USD", 
-   "amount" => 11, 
-   "debit_from" => "GHS" 
-]);
-
-var_dump($response);
-```
-
-###  Get all virtual cards
-```php
-$response = $merchant->virtualCard()->all();
-
-var_dump($response);
-```
-
-###  Get virtual card by id
-```php
-$cardId = 113;
-$response = $merchant->virtualCard()->get($cardId);
-
-var_dump($response);
-```
-
-###  Delete virtual card by id
-```php
-$cardId = 113;
-$response = $merchant->virtualCard()->delete($cardId);
-
-var_dump($response);
-```
-
-###  Fund virtual card by id
-```php
-$cardId = 113;
-$response = $merchant->virtualCard()->fund($cardId, [
-   "amount" => "10", 
-   "currency" => "USD", 
-   "debit_from" => "GHS"
-]);
-
-var_dump($response);
-```
-
-###  Withdraw from card by id
-```php
-$cardId = 113;
-$response = $merchant->virtualCard()->withdraw($cardId, [
-   "amount" => "5"
-]);
-
-var_dump($response);
-```
-
-###  Get card Transactions
-```php
-$cardId = 113;
-$response = $merchant->virtualCard()->transactions($cardId);
-
-var_dump($response);
-```
-
-###  Block Card
-```php
-$cardId = 113;
-$response = $merchant->virtualCard()->block($cardId);
-
-var_dump($response);
-```
-
-###  Unblock Card
-```php
-$cardId = 113;
-$response = $merchant->virtualCard()->unblock($cardId);
-
-var_dump($response);
-```
-
-###  Create virtual bank account
-```php
-$response = $merchant->banks()->create([
-  "account_name" => "Tommie N Darku"
-]);
-
-var_dump($response);
-```
-
-### Verify Bank account
-```php
-...
-use Bitsika\Resources\Supports\Country;
-...
-
-// Verify Ghana banks
-$response = $merchant->banks()->verifyAccount(Country::GHANA, [
-    "account_number" => "0218420116",
-    "bank_code" => "058"
-]);
-
-// Verify Nigeria banks
-$response = $merchant->banks()->verifyAccount(Country::NIGERIA, [
-    "account_number" => "0218420116",
-    "bank_code" => "058"
-]);
-
-var_dump($response);
-```
 
 ## Invoice Webhooks
-Whenever invoices are paid for, events are triggered and notifications are sent to the webhooks you provided on your `keys and security` page. Your webhook url is expected to be an unauthenticated `POST` request url.
+Whenever invoices are paid, notifications are sent to the webhook URL you provided on the `Keys and Security` page of your [Bitsika Console](https://console.bitsika.africa) account. Your webhook URL is expected to be an unauthenticated `POST` request URL.
 
-Once payments are recieved, weather failed or successful, we make a post request containing the event object to your webhook url.
+Once payments are recieved, weather `Initiated`, `Failed` or `Successful`, we make a Post request containing the event object to your webhook URL.
 
-The request object contains the `event`, `invoice_id` and `transaction` details. 
+The request object contains the `event`, `invoice_id` and `transaction` details.
 
 The `event` key will be `invoice.payment_failed` for failed payments, or `invoice.payment_success` for successful payments.
 
-The `invoice_id` is the `id` of the invoice being paid for, while the `transaction` key contains a json object of the payment.
+The `invoice_id` is the `id` of the invoice being paid for, while the `transaction` key contains a JSON object of the payment.
 
 ### Verifying webhooks
-Everytime a request is made to your webhook url, for security reasons, we also send a `x-bitsika-signature` in the header. This contains a `HMAC SHA512` hash of the payload signed using your secret key.
+(Optional) Everytime a request is made to your webhook url, for security reasons, we also send a `x-bitsika-signature` in the header. This contains a `HMAC SHA512` hash of the payload signed using your secret key.
 
 ```php
 if($_SERVER['HTTP_X_BITSIKA_SIGNATURE'] !== hash_hmac('sha512', $input, YOUR_SECRET_KEY_HERE))
     exit();
 ```
 
-**Sample Response**
-An example of the response to expect:
+**Sample Response -**
+An example of the JSON response to expect:
 ```
 {
    "id": 935,
    "reference": "87-1601554148-1530",
    "currency": "USD",
-   "status": "Initiated",
+   "status": "Successful",
    "amount": 50,
    "type": "Out",
    "created_at": "2020-10-01 12:09:08",
@@ -328,7 +190,7 @@ An example of the response to expect:
    "from_account": {
       "id": 87,
       "name": "Tom Tom Darku",
-      "username": "td"
+      "username": "tdlover"
    }
 }
 ```

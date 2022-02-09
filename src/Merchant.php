@@ -2,14 +2,9 @@
 
 namespace Bitsika;
 
-use Bitsika\Resources\Services\Abcd;
-use Bitsika\Resources\Services\Bank;
 use Bitsika\Resources\Supports\Http;
-use Bitsika\Resources\Services\Bitcoin;
 use Bitsika\Resources\Services\Invoice;
-use Bitsika\Resources\Services\OverView;
 use Bitsika\Resources\Services\Transaction;
-use Bitsika\Resources\Services\VirtualCard;
 use Bitsika\Resources\Config\MerchantConfig;
 
 class Merchant
@@ -112,45 +107,4 @@ class Merchant
     {
         return new Transaction($this->http);
     }
-
-    /**
-     * Get an instance of the virtual-card service
-     * 
-     * @return VirtualCard
-     */
-    public function virtualCard(): VirtualCard
-    {
-        return new VirtualCard($this->http);
-    }
-
-    /**
-     * Get an instance of the bitcoin service
-     * 
-     * @return Bitcoin
-     */
-    public function bitcoin(): Bitcoin
-    {
-        return new Bitcoin($this->http);
-    }
-
-    /**
-     * Get an instance of the Abcd service
-     * 
-     * @return Abcd
-     */
-    public function abcd(): Abcd
-    {
-        return new Abcd($this->http);
-    }
-
-    /**
-     * Get an instance of the Bank service
-     * 
-     * @return Bank
-     */
-    public function banks(): Bank
-    {
-        return new Bank($this->http);
-    }
-
 }
