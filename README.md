@@ -7,19 +7,33 @@ The Bitsika PHP library gives convenient access to the Console Merchant API for 
 ## General Requirements
 1. PHP version 7.0 or greater.
 2. Composer for installing packages.
-3. The binding relies on [Guzzle](https://guzzle3.readthedocs.io/index.html) to work fine.
+3. The binding relies on [Guzzle](https://guzzle3.readthedocs.io/index.html) to work fine. This package comes pre-installed with Guzzle.
 
 ## Installation
-Install the Bitsika PHP Library.
+Install the Bitsika PHP Library. Version to install is `dev-main`.
 
 ```bash
 composer require bitsika/merchant-sdk-php
 ```
 
+
+You can also install these packages using the `composer install` command from your `composer.json` file.
+
+```json
+{
+    "require": {
+        "bitsika/merchant-sdk-php": "1.0.1"
+    }
+}
+```
+
+
+
 To use the bindings, use Composer's autoload.
 ```bash
 require_once __DIR__ . '/vendor/autoload.php';
 ```
+
 
 
 ## Getting Started
@@ -120,8 +134,7 @@ $response = $merchant->transaction()->sendCash([
    "currency" => "USD",
    "username" => "davido",
    "debit_from" => "USD",
-   "by_id" => "",
-   "for" => ""
+   "purpose" => ""
 ]);
 
 var_dump($response);
