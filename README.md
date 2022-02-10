@@ -207,3 +207,7 @@ An example of the JSON response to expect:
    }
 }
 ```
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
