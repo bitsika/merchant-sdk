@@ -1,5 +1,19 @@
 {
     "name": "bitsika/merchant-sdk-php",
+    "description": "This package fluent way to use the bitsika merchant api.",
+    "keywords": [
+        "bitsika",
+        "bitsika merchant"
+    ],
+    "homepage": "https://github.com/bitsika/merchant-sdk-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bitsika",
+            "email": "atsu@bitsika.africa",
+            "role": "Owner"
+        }
+    ],
     "type": "library",
     "autoload": {
         "psr-4": {
