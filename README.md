@@ -167,6 +167,19 @@ var_dump($response);
 ```
 
 
+### Search for a user.
+
+Use this method to search for a bitsika user, and verify is they exist.
+
+```php
+
+$username = "USERNAME_HERE";
+
+$response = $merchant->customer()->search(['username' => $username]);
+
+var_dump($response);
+```
+
 
 
 ## Invoice Webhooks
