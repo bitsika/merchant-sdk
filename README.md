@@ -175,7 +175,7 @@ Use this method to search for a bitsika user, and verify is they exist.
 
 $username = "USERNAME_HERE";
 
-$response = $merchant->customer()->search(['username' => $username]);
+$response = $merchant->customer()->search($username);
 
 var_dump($response);
 ```

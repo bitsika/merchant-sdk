@@ -35,10 +35,12 @@ class Customer
      * 
      * @return array
      */
-    public function search(array $params = []) : array
+    public function search($username) : array
     {
         $url = "customers/search";
 
+        $params['username'] = $username;
+        
         $this->response = $this->http->get($url, $params);
         return $this->response->json();
     }
