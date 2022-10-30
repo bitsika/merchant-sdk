@@ -55,7 +55,8 @@ class RequestHandler
                 $options['query'] = $params;
             }
 
-            if (HttpMethod::POST === $method) {
+            if (HttpMethod::POST === $method || HttpMethod::PUT === $method || HttpMethod::PATCH === $method) {
+                $options['body'] = json_encode($params);
                 if ($this->asForm) {
                     $options['form_params'] = $params;
                 }
