@@ -22,7 +22,7 @@ You can also install these packages using the `composer install` command from yo
 ```json
 {
     "require": {
-        "bitsika/merchant-sdk-php": "1.0.8"
+        "bitsika/merchant-sdk-php": "1.0.9"
     }
 }
 ```
