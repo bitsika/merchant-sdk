@@ -77,7 +77,7 @@ class Http implements HttpClientInterface
      */
     public function post($url, array $params = [])
     {
-        $this->response = $this->handler->asForm()->makeRequest(HttpMethod::POST, $url, $params);
+        $this->response = $this->handler->makeRequest(HttpMethod::POST, $url, $params);
     
         return new Response($this->response);
     }
@@ -92,7 +92,7 @@ class Http implements HttpClientInterface
      */
     public function put($url, array $params = [])
     {
-        $this->response = $this->handler->asForm()->makeRequest(HttpMethod::PUT, $url, $params);
+        $this->response = $this->handler->makeRequest(HttpMethod::PUT, $url, $params);
     
         return new Response($this->response);
     }
@@ -107,7 +107,7 @@ class Http implements HttpClientInterface
      */
     public function patch($url, array $params = [])
     {
-        $this->response = $this->handler->asForm()->makeRequest(HttpMethod::PATCH, $url, $params);
+        $this->response = $this->handler->makeRequest(HttpMethod::PATCH, $url, $params);
     
         return new Response($this->response);
     }
