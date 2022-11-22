@@ -7,6 +7,7 @@ use Bitsika\Resources\Services\Invoice;
 use Bitsika\Resources\Services\Customer;
 use Bitsika\Resources\Services\Transaction;
 use Bitsika\Resources\Config\MerchantConfig;
+use Bitsika\Resources\Services\VirtualCard;
 
 class Merchant
 {
@@ -117,6 +118,16 @@ class Merchant
     public function customer(): Customer
     {
         return new Customer($this->http);
+    }
+
+    /**
+     * Get an instance of the virtual-card service
+     * 
+     * @return VirtualCard
+     */
+    public function virtualCard(): VirtualCard
+    {
+        return new VirtualCard($this->http);
     }
 
     /**
