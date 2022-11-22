@@ -181,6 +181,116 @@ var_dump($response);
 ```
 
 
+# Virtual card
+Merchants can generate virtual cards for their account. Here's a list of operations that can be performed pertaining to a virtual card.
+
+###  Create Card
+This method is used to create a virtual card
+
+| Param | Required | About | Validation |
+| :--- | :--- | :--- | :--- |
+| name | Yes | The virtual card name | String |
+| currency | Yes | The currency the generated card will have | String. `NGN`, `USD`, `GHS` |
+| amount | Yes | The amount to fund the card with upon creation | Integer. numeric |
+| debit_from | Yes | The wallet currency to be debited from upon creation | String.`NGN`, `USD`, `GHS`  |
+
+```php
+$response = $merchant->virtualCard()->create([
+   "name" => "Tommie Nii Darku", 
+   "currency" => "USD", 
+   "amount" => 11, 
+   "debit_from" => "GHS" 
+]);
+
+var_dump($response);
+```
+
+###  Get all virtual cards
+You can fetch all the available virtual cards with the method below
+```php
+$response = $merchant->virtualCard()->all();
+
+var_dump($response);
+```
+
+###  Get virtual card by id
+You can get a virtual card by it's `id` with the method below
+```php
+$cardId = 113;
+$response = $merchant->virtualCard()->get($cardId);
+
+var_dump($response);
+```
+
+###  Delete virtual card by id
+You can delete a virtual card by it's `id` with the method below
+
+```php
+$cardId = 113;
+$response = $merchant->virtualCard()->delete($cardId);
+
+var_dump($response);
+```
+
+###  Fund virtual card by id
+You can fund a virtual card by it's `id` with the method below
+
+
+| Param | Required | About | Validation |
+| :--- | :--- | :--- | :--- |
+| amount | Yes | The amount to fund the card with | Integer. numeric |
+| currency | Yes | The currency to fund the card with | String. `NGN`, `USD`, `GHS` |
+| debit_from | Yes | The wallet currency to be debited from | String.`NGN`, `USD`, `GHS`  |
+
+```php
+$cardId = 113;
+$response = $merchant->virtualCard()->fund($cardId, [
+   "amount" => "10", 
+   "currency" => "USD", 
+   "debit_from" => "GHS"
+]);
+
+var_dump($response);
+```
+
+###  Withdraw from card by id
+You can withdraw from a virtual card by it's `id` with the method below
+```php
+$cardId = 113;
+$response = $merchant->virtualCard()->withdraw($cardId, [
+   "amount" => "5"
+]);
+
+var_dump($response);
+```
+
+###  Get card Transactions
+You can fetch a virtual card's transaction by it's `id` with the method below
+```php
+$cardId = 113;
+$response = $merchant->virtualCard()->transactions($cardId);
+
+var_dump($response);
+```
+
+###  Block Card
+You can block a virtual card by it's `id` with the method below
+```php
+$cardId = 113;
+$response = $merchant->virtualCard()->block($cardId);
+
+var_dump($response);
+```
+
+###  Unblock Card
+You can unblock a virtual card by it's `id` with the method below
+```php
+$cardId = 113;
+$response = $merchant->virtualCard()->unblock($cardId);
+
+var_dump($response);
+```
+
 
 ## Invoice Webhooks
 Whenever invoices are paid, notifications are sent to the webhook URL you provided on the `Keys and Security` page of your [Bitsika Console](https://console.bitsika.africa) account. Your webhook URL is expected to be an unauthenticated `POST` request URL.
