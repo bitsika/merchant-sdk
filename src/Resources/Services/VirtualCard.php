@@ -57,24 +57,11 @@ class VirtualCard
     }
 
     /**
-     * Delete card by id
-     * 
-     * @return array
-     */
-    public function delete($id) : array
-    {
-        $url = "virtual-card/{$id}/delete";
-
-        $this->response = $this->http->delete($url);
-        return $this->response->json();
-    }
-
-    /**
      * Fund card by id
      * 
      * @return array
      */
-    public function fund($id, array $params) : array
+    public function topUp($id, array $params) : array
     {
         $url = "virtual-card/{$id}/fund";
         $params['card_id'] = $id;
@@ -115,7 +102,7 @@ class VirtualCard
      * 
      * @return array
      */
-    public function block($id) : array
+    public function freeze($id) : array
     {
         $url = "virtual-card/{$id}/block";
 
@@ -128,7 +115,7 @@ class VirtualCard
      * 
      * @return array
      */
-    public function Unblock($id) : array
+    public function unfreeze($id) : array
     {
         $url = "virtual-card/{$id}/unblock";
 
@@ -141,7 +128,7 @@ class VirtualCard
      * 
      * @return array
      */
-    public function Create(array $params) : array
+    public function create(array $params) : array
     {
         $url = "virtual-card/create";
 

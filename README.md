@@ -222,18 +222,8 @@ $response = $merchant->virtualCard()->get($cardId);
 var_dump($response);
 ```
 
-###  Delete virtual card by id
-You can delete a virtual card by it's `id` with the method below
-
-```php
-$cardId = 113;
-$response = $merchant->virtualCard()->delete($cardId);
-
-var_dump($response);
-```
-
-###  Fund virtual card by id
-You can fund a virtual card by it's `id` with the method below
+###  Top-up virtual card by id
+You can top up a virtual card by it's `id` with the method below
 
 
 | Param | Required | About | Validation |
@@ -244,7 +234,7 @@ You can fund a virtual card by it's `id` with the method below
 
 ```php
 $cardId = 113;
-$response = $merchant->virtualCard()->fund($cardId, [
+$response = $merchant->virtualCard()->topUp($cardId, [
    "amount" => "10", 
    "currency" => "USD", 
    "debit_from" => "GHS"
@@ -273,24 +263,23 @@ $response = $merchant->virtualCard()->transactions($cardId);
 var_dump($response);
 ```
 
-###  Block Card
-You can block a virtual card by it's `id` with the method below
+###  Freeze Card
+You can freeze a virtual card by it's `id` with the method below
 ```php
 $cardId = 113;
-$response = $merchant->virtualCard()->block($cardId);
+$response = $merchant->virtualCard()->freeze($cardId);
 
 var_dump($response);
 ```
 
-###  Unblock Card
-You can unblock a virtual card by it's `id` with the method below
+###  Unfreeze Card
+You can unfreeze a virtual card by it's `id` with the method below
 ```php
 $cardId = 113;
-$response = $merchant->virtualCard()->unblock($cardId);
+$response = $merchant->virtualCard()->unfreeze($cardId);
 
 var_dump($response);
 ```
-
 
 ## Invoice Webhooks
 Whenever invoices are paid, notifications are sent to the webhook URL you provided on the `Keys and Security` page of your [Bitsika Console](https://console.bitsika.africa) account. Your webhook URL is expected to be an unauthenticated `POST` request URL.
